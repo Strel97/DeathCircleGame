@@ -7,13 +7,14 @@ import java.awt.image.BufferedImage;
  */
 public class Game implements Runnable {
 
-    private BufferedImage img = new BufferedImage(160, 160, BufferedImage.TYPE_INT_RGB);
-    private BufferedImage sprite_sheet = ResourceLoader.loadImage("/resources/sprites/sheet.png");
+    private BufferedImage img = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+    private static BufferedImage sprite_sheet = ResourceLoader.loadImage("/sprites/sheet.png");
 
     private GameFrame frame;
     private InputHandler input;
 
     private Player player;
+    private Enemy enemy;
 
     private boolean running;
 
@@ -37,10 +38,8 @@ public class Game implements Runnable {
         frame = new GameFrame("Death Circle");
         frame.addKeyListener(input);
 
-        player = new Player(
-                input,
-                ResourceLoader.loadImage("/sprites/player.png"),
-                10, 10, 1);
+        player = new Player(input, 10, 10, 1);
+        enemy = new Enemy(50, 50, 1);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class Game implements Runnable {
             render();
 
             try {
-                Thread.sleep(20);
+                Thread.sleep(50);
             }
             catch (InterruptedException ex) { ex.printStackTrace(); }
         }
@@ -62,6 +61,7 @@ public class Game implements Runnable {
 
     public void update() {
         player.step();
+        enemy.step();
     }
 
     public void render() {
@@ -78,6 +78,7 @@ public class Game implements Runnable {
 
             frame.render(g2);
             player.draw(g2);
+            enemy.draw(g2);
 
             g.drawImage(img, 0, 0, frame.getWidth(), frame.getHeight(), null);
 
@@ -85,6 +86,10 @@ public class Game implements Runnable {
             g.dispose();
             bs.show();
         }
+    }
+
+    public static BufferedImage getSpriteSheet() {
+        return sprite_sheet;
     }
 
 

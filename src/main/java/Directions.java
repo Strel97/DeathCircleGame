@@ -3,6 +3,8 @@
  */
 public interface Directions {
 
+    public int SIDES_CNT = 4;
+
     public int NORTH = 0;
     public int EAST = 1;
     public int SOUTH = 2;

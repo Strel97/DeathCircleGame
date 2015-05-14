@@ -4,26 +4,17 @@ import java.awt.event.KeyEvent;
 /**
  * Created by strel on 13.05.15.
  */
-public class Player extends GameObject {
+public class Player extends MovingObject {
 
     private InputHandler input;
-    private boolean moving;
-    private int direction;
-
-    private long walkedDistance;
-    private boolean leftLeg;
 
 
-    public Player(InputHandler input, Image img, int x, int y, int v) {
-        super(img, x, y, v);
+    public Player(InputHandler input, int x, int y, int v) {
+        super(x, y, v, 1);
         this.input = input;
-        direction = Directions.SOUTH;
-        moving = false;
-
-        walkedDistance = 0;
-        leftLeg = false;
     }
 
+    @Override
     public void step() {
         moving = false;
 
@@ -52,34 +43,10 @@ public class Player extends GameObject {
         int sx = 0;
         int sy = 0;
 
-        if (walkedDistance % 10 == 0)
-            leftLeg = !leftLeg;
+        chooseLeg();
+        sx = getSpriteX(sx);
+        sy = getSpriteY(sy);
 
-        if (moving) {
-            sx = (leftLeg) ? 2 : 0;
-        }
-        else {
-            sx = 1;
-        }
-
-        switch (direction) {
-            case Directions.SOUTH:
-                sy = 0;
-                break;
-
-            case Directions.WEST:
-                sy = 1;
-                break;
-
-            case Directions.EAST:
-                sy = 2;
-                break;
-
-            case Directions.NORTH:
-                sy = 3;
-                break;
-        }
-
-        g.drawImage(img, x, y, x + 32, y + 32, sx * 32, sy * 32, sx * 32 + 32, sy * 32 + 32, null);
+        g.drawImage(Game.getSpriteSheet(), x, y, x + 6, y + 6, sx * 6, sy * 6, sx * 6 + 6, sy * 6 + 6, null);
     }
 }
