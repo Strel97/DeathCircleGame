@@ -1,52 +1,52 @@
+package strategy;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
  * Created by strel on 13.05.15.
  */
-public class Player extends MovingObject {
+public class Player extends Cursor {
 
     private InputHandler input;
+    private int v;
 
-
-    public Player(InputHandler input, int x, int y, int v) {
-        super(x, y, v, 1);
+    public Player(InputHandler input, int x, int y, World world) {
+        super(x, y, world);
         this.input = input;
+        v = MapObjects.TILE_SIZE;
     }
 
     @Override
     public void step() {
-        moving = false;
-
         if (input.isMovingKeyPressed()) {
-            moving = true;
-            walkedDistance += v;
-
             if (input.isPressed(KeyEvent.VK_LEFT)) {
                 x -= v;
-                direction = Directions.WEST;
             } else if (input.isPressed(KeyEvent.VK_RIGHT)) {
                 x += v;
-                direction = Directions.EAST;
             } else if (input.isPressed(KeyEvent.VK_UP)) {
                 y -= v;
-                direction = Directions.NORTH;
             } else if (input.isPressed(KeyEvent.VK_DOWN)) {
                 y += v;
-                direction = Directions.SOUTH;
             }
+        }
+        else if (input.isPressed(KeyEvent.VK_SPACE)) {
+            world.add(new Lumbermill(x, y, world));
         }
     }
 
     @Override
     public void draw(Graphics g) {
         int sx = 0;
-        int sy = 0;
+        int sy = 2;
+        int sTile = MapObjects.TILE_SIZE;
 
-        chooseLeg();
-        sx = getSpriteX(sx);
-        sy = getSpriteY(sy);
-
-        g.drawImage(Game.getSpriteSheet(), x, y, x + 6, y + 6, sx * 6, sy * 6, sx * 6 + 6, sy * 6 + 6, null);
+        g.drawImage(
+                Game.getSpriteSheet(),
+                x, y,
+                x + sTile, y + sTile,
+                sx * sTile, sy * sTile,
+                sx * sTile + sTile, sy * sTile + sTile,
+                null);
     }
 }

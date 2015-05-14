@@ -1,3 +1,5 @@
+package strategy;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -8,6 +10,7 @@ public abstract class MovingObject extends GameObject {
 
     protected Random rand;
 
+    protected int v;
     protected boolean moving;
     protected int direction;
 
@@ -16,11 +19,12 @@ public abstract class MovingObject extends GameObject {
     protected int walkedDistance;
 
 
-    public MovingObject(int x, int y, int v, int sprite) {
-        super(x, y, v);
+    public MovingObject(int x, int y, int v, int sprite, World world) {
+        super(x, y, world);
 
         rand = new Random();
 
+        this.v = v;
         moving = false;
         direction = 0;
 
@@ -32,26 +36,26 @@ public abstract class MovingObject extends GameObject {
     public void step() {
         moving = true;
         if (walkedDistance % 10 == 0) {
-            direction = rand.nextInt(Directions.SIDES_CNT);
+            direction = rand.nextInt(strategy.Directions.SIDES_CNT);
         }
 
         if (moving) {
             walkedDistance += v;
 
             switch (direction) {
-                case Directions.WEST:
+                case rpg.Directions.WEST:
                     x -= v;
                     break;
 
-                case Directions.EAST:
+                case rpg.Directions.EAST:
                     x += v;
                     break;
 
-                case Directions.NORTH:
+                case rpg.Directions.NORTH:
                     y -= v;
                     break;
 
-                case Directions.SOUTH:
+                case rpg.Directions.SOUTH:
                     y += v;
                     break;
             }
@@ -78,15 +82,15 @@ public abstract class MovingObject extends GameObject {
 
     protected int getSpriteY(int sy) {
         switch (direction) {
-            case Directions.SOUTH:
+            case rpg.Directions.SOUTH:
                 sy = 0;
                 break;
 
-            case Directions.NORTH:
+            case rpg.Directions.NORTH:
                 sy = 1;
                 break;
 
-            case Directions.EAST:
+            case rpg.Directions.EAST:
                 sy = 2;
                 break;
 
@@ -97,7 +101,4 @@ public abstract class MovingObject extends GameObject {
 
         return sy;
     }
-
-    @Override
-    public abstract void draw(Graphics g);
 }

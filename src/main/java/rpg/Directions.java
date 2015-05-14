@@ -1,3 +1,5 @@
+package rpg;
+
 /**
  * Created by strel on 13.05.15.
  */

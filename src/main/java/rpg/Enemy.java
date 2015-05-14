@@ -1,5 +1,6 @@
+package rpg;
+
 import java.awt.*;
-import java.util.Random;
 
 /**
  * Created by strel on 14.05.15.

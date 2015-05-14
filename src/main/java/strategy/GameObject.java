@@ -1,3 +1,5 @@
+package strategy;
+
 import java.awt.*;
 
 /**
@@ -5,15 +7,16 @@ import java.awt.*;
  */
 public abstract class GameObject {
 
+    public World world;
     protected int x, y;
-    protected int v;
 
 
-    public GameObject(int x, int y, int v) {
+    public GameObject(int x, int y, World world) {
+        this.world = world;
         this.x = x;
         this.y = y;
-        this.v = v;
     }
 
+    public abstract void step();
     public abstract void draw(Graphics g);
 }

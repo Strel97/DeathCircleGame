@@ -1,3 +1,5 @@
+package strategy;
+
 import java.awt.*;
 
 /**
